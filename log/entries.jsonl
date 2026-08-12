@@ -35,3 +35,4 @@
 {"entry_id": "ETH_Strategy_2026-08-11T14-19-31", "sha256_hash": "ba7efda20b3ee51f1d02747e9aea3b98c1a7f5b95d5fe23cfa7dc6db54725aca", "ts": "2026-08-11T14:19:31", "prev_entry_hash": "b4f16a912ec4dc7b0e64717b299137fbb083468759b31c1180966d9f379b0b7e"}
 {"entry_id": "ETH_Strategy_2026-08-12T13-23-03", "sha256_hash": "04f011ce914cd04ca4861f5420688d6b9f892fa19d4b09823607fd991f1b746b", "ts": "2026-08-12T13:23:03", "prev_entry_hash": "ba7efda20b3ee51f1d02747e9aea3b98c1a7f5b95d5fe23cfa7dc6db54725aca"}
 {"entry_id": "Monolith_Lender_2026-07-24T00-25-56", "sha256_hash": "ed62dd140bdd9effa0e1b90035659915eb525aec5b18b0e6f7aa4ba9ec1fef1d", "ts": "2026-07-24T00:25:56", "prev_entry_hash": null}
+{"entry_id": "ADI_Bridge_2026-07-24T06-36-07", "sha256_hash": "004f506ced97eadb784db8b02848101b7a555621f233b63c050ba6713aa26093", "ts": "2026-07-24T06:36:07", "prev_entry_hash": "ed62dd140bdd9effa0e1b90035659915eb525aec5b18b0e6f7aa4ba9ec1fef1d"}
