@@ -9,6 +9,22 @@ disclosing the actual finding content. This repo contains **only**:
 - `proofs/<entry_id>.ots` — [OpenTimestamps](https://opentimestamps.org) proof,
   anchoring the entry's hash into the Bitcoin blockchain — independent of Nexus
   Trinity, GitHub, or anyone else's say-so
+- `proofs/<entry_id>.tsr` — a classical RFC 3161 timestamp from an independent
+  timestamping authority (FreeTSA) — a second, deliberately different trust model
+  (centralized rather than decentralized)
+- `batches/<batch_id>.batch.bundle.json` — a [Sigstore](https://sigstore.dev) keyless
+  signature (via `cosign`) over the combined digest of a whole batch of entries at
+  once, bound to a real-time OIDC login and logged permanently in
+  [Rekor](https://rekor.sigstore.dev), Sigstore's own public transparency log — a
+  fourth witness, independent of Nexus Trinity, GitHub, GitLab, Bitcoin, and FreeTSA
+  all at once. Batched rather than per-entry because Sigstore's keyless model requires
+  a fresh interactive login for every signature by design (no long-lived key to
+  steal) — proves the exact ordered set of entries in `entry_hashes` existed together
+  at the time of signing, not a per-entry Merkle inclusion proof.
+
+This repo is also mirrored to [GitLab](https://gitlab.com/nexus-trinity-io-group1/nexustrinity-transparency-log)
+— a second custodian on genuinely different infrastructure, so a GitHub-specific
+outage, ToS action, or account compromise doesn't take out the only public copy.
 
 **What this deliberately does not contain:** target names, contract addresses,
 findings, source code, or reports. That's proprietary and stays in the private
@@ -51,6 +67,16 @@ sha256sum <reconstructed_canonical.json>
 
 # Verify the OpenTimestamps proof (requires the ots CLI: pip install opentimestamps-client)
 ots verify proofs/<entry_id>.ots
+
+# Verify the RFC 3161 timestamp (needs real OpenSSL's `ts` subcommand — on macOS the
+# system `openssl` is LibreSSL and fails here; use Homebrew's: brew install openssl@3)
+openssl ts -verify -in proofs/<entry_id>.tsr -queryfile proofs/<entry_id>.tsq \
+  -CAfile freetsa_ca.pem -untrusted freetsa_tsa.crt
+
+# Verify a batch cosign attestation (requires the cosign CLI)
+cosign verify-blob --bundle batches/<batch_id>.batch.bundle.json \
+  --certificate-identity-regexp ".*" --certificate-oidc-issuer-regexp ".*" \
+  batches/<batch_id>.batch.json
 ```
 
 A passing `gpg --verify` proves Michael Ross attested to that exact content and it
